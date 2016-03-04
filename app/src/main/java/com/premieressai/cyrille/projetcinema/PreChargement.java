@@ -81,8 +81,13 @@ public class PreChargement extends Activity {
         {
             Toast toast = Toast.makeText(this, "internet available", Toast.LENGTH_SHORT);
             toast.show();
-            //a = request("http://centrale.corellis.eu");
-            //Log.d(TAG, a.toString());
+            try {
+                a = request("http://centrale.corellis.eu/animations_commerciales.json");
+                //Log.d(TAG, a.toString());
+            } catch (Exception e) {
+                Toast toaaast = Toast.makeText(this, "Chargement impossible", Toast.LENGTH_SHORT);
+                toaaast.show();
+            }
         }
         else
         {
