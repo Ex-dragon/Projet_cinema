@@ -31,9 +31,12 @@ public class PreChargement extends Activity {
         CinemaActivity cinema = null;
 
         PreChargementAsync task = new PreChargementAsync(cinema);
-        String a = String.valueOf(task.execute("http://centrale.corellis.eu/animations_commerciales.json"));
+        String a = String.valueOf(task.execute("http://centrale.corellis.eu/events.json",
+                "http://centrale.corellis.eu/filmseances.json",
+                "http://centrale.corellis.eu/prochainement.json",
+                "http://centrale.corellis.eu/seances.json"));
 
-        Log.i(TAG, a);
+
 
         return a;
     }
