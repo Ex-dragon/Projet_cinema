@@ -4,11 +4,11 @@
     android:layout_height="match_parent"
     android:weightSum="1">
 
-    <TextView
-        android:layout_width="376dp"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Yay ! Ca marche ! :D"
-        android:id="@+id/textView"
-        android:layout_weight="0.47" />
+    <ProgressBar
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="117dp"
+        android:layout_height="0dp"
+        android:id="@+id/progressBar2"
+        android:layout_weight="0.21"
+        android:layout_gravity="center" />
 </LinearLayout>
