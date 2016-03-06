@@ -19,12 +19,12 @@ public class PreChargement extends Activity {
 
     private static final String TAG = "Ma chaine";
 
-    private String liste;
+    public static String liste;
 
-    public PreChargement() throws IOException {
+    //public PreChargement() throws IOException {
 
-        this.liste = RetrieveList();
-    }
+      //  this.liste = RetrieveList();
+    //}
 
     private String RetrieveList() throws IOException {
 
@@ -35,8 +35,6 @@ public class PreChargement extends Activity {
                 "http://centrale.corellis.eu/filmseances.json",
                 "http://centrale.corellis.eu/prochainement.json",
                 "http://centrale.corellis.eu/seances.json"));
-
-
 
         return a;
     }
@@ -63,10 +61,6 @@ public class PreChargement extends Activity {
         return isInternetAvailable;
     }
 
-
-// "http://centrale.corellis.eu/animations_commerciales.json"
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,10 +70,23 @@ public class PreChargement extends Activity {
         {
             Toast toast = Toast.makeText(this, "Connection à internet établie", Toast.LENGTH_SHORT);
             toast.show();
+            try {
+                this.liste = RetrieveList();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         else
         {
             Toast toast = Toast.makeText(this, "Impossible de se connecter à internet", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
+        if (this.liste != "") {
+            new IndexCinema();
+        }
+        else {
+            Toast toast = Toast.makeText(this, "Les données n'ont pas été chargées :(", Toast.LENGTH_SHORT);
             toast.show();
         }
 

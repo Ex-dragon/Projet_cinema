@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 
 /*Ecran de chargement qui teste si connexion fonctionne.
@@ -12,10 +13,22 @@ Sinon, le dit. Si oui, charge les données + go index.
 
 public class IndexCinema extends Activity {
 
+    private String liste;
+    private TextView textView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index_cinema);
+
+        liste = PreChargement.liste;
+
+        textView = (TextView) findViewById(R.id.textView);
+        textView.setText(liste);
+
     }
 
 
