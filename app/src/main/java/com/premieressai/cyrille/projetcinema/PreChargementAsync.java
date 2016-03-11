@@ -2,6 +2,9 @@ package com.premieressai.cyrille.projetcinema;
 
 import android.os.AsyncTask;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -13,11 +16,10 @@ import java.net.URL;
  */
 public class PreChargementAsync extends AsyncTask<String, Void, String[]> {
 
-    private final CinemaActivity CinemaActivity;
 
-    public PreChargementAsync(CinemaActivity cinema) {
 
-        CinemaActivity = null;
+    public PreChargementAsync() {
+
     }
 
 
@@ -57,7 +59,24 @@ public class PreChargementAsync extends AsyncTask<String, Void, String[]> {
         return a;
     }
 
-    protected void onPostExecute(Long result) {
+    @Override
+    protected void onPostExecute(String[] result) {
+        String titre;
+        String soustitre;
+        String affiche;
+        String description;
+        String vad_condition;
+        String partenaire;
+        String date_deb;
+        String date_fin;
+        String heure;
+        String contact;
+        String web_label;
+
+
+
+
+        PreChargement.liste = "Yay !";
 
     }
 

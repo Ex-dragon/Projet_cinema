@@ -11,7 +11,7 @@ import android.widget.TextView;
 Sinon, le dit. Si oui, charge les données + go index.
  */
 
-public class IndexCinema extends Activity {
+public class Affiche extends Activity {
 
     private String liste;
     private TextView textView;
@@ -22,7 +22,7 @@ public class IndexCinema extends Activity {
 
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_index_cinema);
+        setContentView(R.layout.activity_affiche);
 
         liste = PreChargement.liste;
 
@@ -52,5 +52,9 @@ public class IndexCinema extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void Choose_type_de_flux(){
+        //prochainement, event, etc...
     }
 }

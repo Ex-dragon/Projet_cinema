@@ -26,18 +26,20 @@ public class PreChargement extends Activity {
       //  this.liste = RetrieveList();
     //}
 
-    private String RetrieveList() throws IOException {
+    private void RetrieveList() throws IOException {
 
-        CinemaActivity cinema = null;
 
-        PreChargementAsync task = new PreChargementAsync(cinema);
-        String a = String.valueOf(task.execute("http://centrale.corellis.eu/events.json",
-                "http://centrale.corellis.eu/filmseances.json",
-                "http://centrale.corellis.eu/prochainement.json",
-                "http://centrale.corellis.eu/seances.json"));
 
-        return a;
+        PreChargementAsync task = new PreChargementAsync();
+
+        task.execute("http://centrale.corellis.eu/filmseances.json");
+
     }
+  //  ,
+  //          "http://centrale.corellis.eu/prochainement.json",
+    //        "http://centrale.corellis.eu/events.json",
+      //      "http://centrale.corellis.eu/seances.json"
+
 
     public static boolean isInternetAvailable(Context context)
     {
@@ -71,7 +73,7 @@ public class PreChargement extends Activity {
             Toast toast = Toast.makeText(this, "Connection à internet établie", Toast.LENGTH_SHORT);
             toast.show();
             try {
-                this.liste = RetrieveList();
+                this.RetrieveList();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -83,7 +85,7 @@ public class PreChargement extends Activity {
         }
 
         if (this.liste != "") {
-            new IndexCinema();
+            new Affiche();
         }
         else {
             Toast toast = Toast.makeText(this, "Les données n'ont pas été chargées :(", Toast.LENGTH_SHORT);
