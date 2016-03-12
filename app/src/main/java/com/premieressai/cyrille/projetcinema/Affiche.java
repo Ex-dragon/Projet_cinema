@@ -13,7 +13,7 @@ Sinon, le dit. Si oui, charge les données + go index.
 
 public class Affiche extends Activity {
 
-    private String liste;
+    //private String[] liste;
     private TextView textView;
 
     @Override
@@ -24,10 +24,7 @@ public class Affiche extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affiche);
 
-        liste = PreChargement.liste;
 
-        textView = (TextView) findViewById(R.id.textView);
-        textView.setText(liste);
 
     }
 

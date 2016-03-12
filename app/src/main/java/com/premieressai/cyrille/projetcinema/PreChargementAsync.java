@@ -14,7 +14,7 @@ import java.net.URL;
 /**
  * Created by Cyrille on 06/03/2016.
  */
-public class PreChargementAsync extends AsyncTask<String, Void, String[]> {
+public class PreChargementAsync extends AsyncTask<String, Void, String> {
 
 
 
@@ -24,7 +24,7 @@ public class PreChargementAsync extends AsyncTask<String, Void, String[]> {
 
 
     @Override
-    protected String[] doInBackground(String... params) {
+    protected String doInBackground(String... params) {
 
 // méthode qui récupère les json en arrière-plan
 
@@ -45,38 +45,27 @@ public class PreChargementAsync extends AsyncTask<String, Void, String[]> {
                 InputStream inputStream = connection.getInputStream();
 
                 BufferedReader rd = new BufferedReader(new InputStreamReader(inputStream));
-                String line = "";
+                String line;
                 while ((line = rd.readLine()) != null) {
                     chaine += line;
                 }
                 a[i] += chaine;
                 i++;
 
+                connection.disconnect();
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        return a;
+        //PreChargement.liste = a;
+        return chaine;
     }
 
-    @Override
-    protected void onPostExecute(String[] result) {
-        String titre;
-        String soustitre;
-        String affiche;
-        String description;
-        String vad_condition;
-        String partenaire;
-        String date_deb;
-        String date_fin;
-        String heure;
-        String contact;
-        String web_label;
+    //@Override
+    protected void onPostExecute(String result) {
 
-
-
-
-        PreChargement.liste = "Yay !";
+        //PreChargement.liste[0] = "Yay !"; //Histoire de récupérer un truc sans me faire chier avec les détails
 
     }
 

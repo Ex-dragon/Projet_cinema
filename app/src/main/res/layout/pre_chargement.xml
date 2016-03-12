@@ -4,11 +4,16 @@
     android:layout_height="match_parent"
     android:weightSum="1">
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleSmall"
-        android:layout_width="117dp"
+    <TextView
+        android:layout_width="409dp"
         android:layout_height="0dp"
-        android:id="@+id/progressBar2"
-        android:layout_weight="0.21"
-        android:layout_gravity="center" />
+        android:text="First step"
+        android:id="@+id/text"
+        android:layout_weight="0.21" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/output"
+        android:layout_weight="0.21" />
 </LinearLayout>
