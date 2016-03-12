@@ -1,20 +1,12 @@
 package com.premieressai.cyrille.projetcinema;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Cache;
@@ -27,30 +19,19 @@ import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import java.net.URL;
-
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
  * Created by Cyrille on 31/01/2016.
  */
 public class PreChargement extends Activity {
+
+
+    public static JSONArray data;
+    public static String donnee = "donnee";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +75,10 @@ public class PreChargement extends Activity {
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.d("test", response.toString());
+                        data = response;
+                        Intent intent = new Intent(PreChargement.this, Affiche.class);
+                        intent.putExtra(PreChargement.donnee, String.valueOf(data));
+                        startActivity(intent);
                     }
                 }, new Response.ErrorListener() {
 
@@ -105,6 +90,9 @@ public class PreChargement extends Activity {
 
         // Access the RequestQueue through your singleton class.
         Singleton.getInstance(this).addToRequestQueue(jsArrRequest);
+
+
+
     }
 
 

@@ -2,9 +2,12 @@ package com.premieressai.cyrille.projetcinema;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import org.json.JSONArray;
 
 
 /*Ecran de chargement qui teste si connexion fonctionne.
@@ -13,16 +16,33 @@ Sinon, le dit. Si oui, charge les données + go index.
 
 public class Affiche extends Activity {
 
-    //private String[] liste;
+    private static JSONArray liste;
     private TextView textView;
+
+//    public Affiche(JSONArray liste){
+  //      Affiche.liste = liste;
+    //}
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affiche);
+
+//        if (liste != null) {
+  //          textView.setText("GG !" + liste.toString());
+    //    }
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+// Get data via the key
+            String value1 = extras.getString("donnee");
+            if (value1 != null) {
+// Do something with the data
+                Log.d("centrale", value1);
+            }
+        }
 
 
 
