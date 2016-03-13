@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -17,6 +19,7 @@ Sinon, le dit. Si oui, charge les données + go index.
 public class Affiche extends Activity {
 
     private TextView textView;
+    ListView mListView;
 
 
     @Override
@@ -27,9 +30,15 @@ public class Affiche extends Activity {
 
         if (PreChargement.liste_affiche != null) {
             textView = (TextView) findViewById(R.id.textView);
-            textView.setText("GG !");
+            //textView.setText("GG !");
             Log.d("centrale", PreChargement.liste_affiche.toString());
         }
+
+        mListView = (ListView) findViewById(R.id.listView);
+
+        ArrayAdapter<Film> adapter = new ArrayAdapter<Film>(Affiche.this, android.R.layout.simple_list_item_1, PreChargement.liste2);
+        mListView.setAdapter(adapter);
+
 
     }
 

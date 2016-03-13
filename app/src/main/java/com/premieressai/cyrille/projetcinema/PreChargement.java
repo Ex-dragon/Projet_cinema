@@ -74,12 +74,7 @@ public class PreChargement extends Activity {
                     public void onResponse(JSONArray response) {
                         Log.d("test", response.toString());
                         liste_affiche = response;
-
-                        try {
-                            liste2 = film_affiche(liste_affiche);
-                        } catch (Exception e){
-                            Log.d("error liste", e.getMessage());
-                        }
+                        liste2 = film_affiche(liste_affiche);
                         Intent intent = new Intent(PreChargement.this, Affiche.class);
                         startActivity(intent);
                     }
