@@ -6,8 +6,8 @@ package com.premieressai.cyrille.projetcinema;
 public class Film {
 
 // filmseance.json
-    String id;
-    String titre;
+    int id = 0;
+    String titre = "";
     String duree;
     String affiche;
     String distributeur;
@@ -63,5 +63,13 @@ public class Film {
     String categorieid;
     String performanceid;
     String cinema_salle;
+
+    public void setId(int ID){
+        id = ID;
+    }
+
+    public void setTitre(String Titre){
+        titre = Titre;
+    }
 
 }

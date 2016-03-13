@@ -16,12 +16,7 @@ Sinon, le dit. Si oui, charge les données + go index.
 
 public class Affiche extends Activity {
 
-    private static JSONArray liste;
     private TextView textView;
-
-//    public Affiche(JSONArray liste){
-  //      Affiche.liste = liste;
-    //}
 
 
     @Override
@@ -30,23 +25,11 @@ public class Affiche extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affiche);
 
-        if (PreChargement.data != null) {
+        if (PreChargement.liste_affiche != null) {
             textView = (TextView) findViewById(R.id.textView);
             textView.setText("GG !");
-            Log.d("centrale", PreChargement.data.toString());
+            Log.d("centrale", PreChargement.liste_affiche.toString());
         }
-
-        //Bundle extras = getIntent().getExtras();
-        //if (extras != null) {
-// Get data via the key
-          //  String value1 = extras.getString("donnee");
-            //if (value1 != null) {
-// Do something with the data
-              //  Log.d("centrale", value1);
-            //}
-        //}
-
-
 
     }
 

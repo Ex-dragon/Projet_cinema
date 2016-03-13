@@ -21,7 +21,11 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonArrayRequest;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -30,7 +34,8 @@ import org.json.JSONArray;
 public class PreChargement extends Activity {
 
 
-    public static JSONArray data;
+    public static JSONArray liste_affiche;
+    public static List<Film> liste2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +53,6 @@ public class PreChargement extends Activity {
             Toast toast = Toast.makeText(this, "Impossible de se connecter à internet", Toast.LENGTH_SHORT);
             toast.show();
         }
-
-
 
         // Instantiate the cache
         Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024); // 1MB cap
@@ -70,9 +73,14 @@ public class PreChargement extends Activity {
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.d("test", response.toString());
-                        data = response;
+                        liste_affiche = response;
+
+                        try {
+                            liste2 = film_affiche(liste_affiche);
+                        } catch (Exception e){
+                            Log.d("error liste", e.getMessage());
+                        }
                         Intent intent = new Intent(PreChargement.this, Affiche.class);
-                        //intent.putExtra(PreChargement.donnee, String.valueOf(data));
                         startActivity(intent);
                     }
                 }, new Response.ErrorListener() {
@@ -82,11 +90,8 @@ public class PreChargement extends Activity {
                         Log.d("error volley", error.getMessage());
                     }
                 });
-
         // Access the RequestQueue through your singleton class.
         Singleton.getInstance(this).addToRequestQueue(jsArrRequest);
-
-
 
     }
 
@@ -111,6 +116,31 @@ public class PreChargement extends Activity {
         }
 
         return isInternetAvailable;
+    }
+
+    public List<Film> film_affiche(JSONArray flux){
+
+        List<Film> liste_films = new ArrayList<>();
+        Film film_test = new Film();
+
+        try {
+
+
+            for (int i=0; i<flux.length(); i++){
+
+                JSONObject jsonObject = flux.getJSONObject(i);
+
+                film_test.setId(jsonObject.getInt("id"));
+                film_test.setTitre(jsonObject.getString("titre"));
+
+                liste_films.add(film_test);
+
+            }
+
+        } catch (JSONException e) {
+            Log.d("error jsonarray", e.getMessage());
+        }
+        return liste_films;
     }
 
 }
