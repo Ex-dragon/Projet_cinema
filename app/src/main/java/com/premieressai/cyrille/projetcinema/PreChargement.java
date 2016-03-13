@@ -128,6 +128,8 @@ public class PreChargement extends Activity {
 
                 film_test.setId(jsonObject.getInt("id"));
                 film_test.setTitre(jsonObject.getString("titre"));
+                film_test.setDuree(jsonObject.getInt("duree"));
+                //film_test.setAffiche(jsonObject.getString("affiche"));
 
                 liste_films.add(film_test);
 

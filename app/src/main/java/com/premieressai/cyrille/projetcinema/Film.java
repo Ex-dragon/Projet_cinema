@@ -8,28 +8,29 @@ public class Film {
 // filmseance.json
     private int id = 0;
     private String titre = "";
-    String duree;
-    String affiche;
-    String distributeur;
-    String acteurs;
-    String web;
-    String realisateur;
-    String synopsis;
-    String annee;
-    String date_sortie;
-    String info;
-    String is_visible;
-    String is_vente;
-    String genre_id;  // genre
-    String categorie_id; //categorie
-    String Release_number;
-    String pays;
-    String share_url;
-    String media;
-    String video;
-    String is_avp;
-    String is_alaune; //A la une, sert à rien, toujours false
-    String last_week;
+    private int duree;
+    private String affiche;
+
+    private String distributeur;
+    private String acteurs;
+    private String web;
+    private String realisateur;
+    private String synopsis;
+    private String annee;
+    private String date_sortie;
+    private String info;
+    private String is_visible;
+    private String is_vente;
+    private String genre_id;  // genre
+    private String categorie_id; //categorie
+    private String Release_number;
+    private String pays;
+    private String share_url;
+    private String media;
+    private String video;
+    private String is_avp;
+    private String is_alaune; //A la une, sert à rien, toujours false
+    private String last_week;
 
 //prochainement
     String current;
@@ -78,6 +79,22 @@ public class Film {
 
     public String getTitre(){
         return titre;
+    }
+
+    public void setDuree(int temps){
+        duree = temps;
+    }
+
+    public int getDuree(){
+        return duree;
+    }
+
+    public void setAffiche(String url){
+        affiche = url;
+    }
+
+    public String getAffiche(){
+        return affiche;
     }
 
 }
