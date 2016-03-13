@@ -31,7 +31,6 @@ public class PreChargement extends Activity {
 
 
     public static JSONArray data;
-    public static String donnee = "donnee";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +63,6 @@ public class PreChargement extends Activity {
         // Start the queue
         mRequestQueue.start();
 
-
-        //TextView mTxtDisplay;
-        //ImageView mImageView;
-        //final TextView mTxtDisplay = (TextView) findViewById(R.id.text);
         String url = "http://centrale.corellis.eu/filmseances.json";
 
         JsonArrayRequest jsArrRequest = new JsonArrayRequest
@@ -77,7 +72,7 @@ public class PreChargement extends Activity {
                         Log.d("test", response.toString());
                         data = response;
                         Intent intent = new Intent(PreChargement.this, Affiche.class);
-                        intent.putExtra(PreChargement.donnee, String.valueOf(data));
+                        //intent.putExtra(PreChargement.donnee, String.valueOf(data));
                         startActivity(intent);
                     }
                 }, new Response.ErrorListener() {

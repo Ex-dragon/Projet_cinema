@@ -30,19 +30,21 @@ public class Affiche extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affiche);
 
-//        if (liste != null) {
-  //          textView.setText("GG !" + liste.toString());
-    //    }
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-// Get data via the key
-            String value1 = extras.getString("donnee");
-            if (value1 != null) {
-// Do something with the data
-                Log.d("centrale", value1);
-            }
+        if (PreChargement.data != null) {
+            textView = (TextView) findViewById(R.id.textView);
+            textView.setText("GG !");
+            Log.d("centrale", PreChargement.data.toString());
         }
+
+        //Bundle extras = getIntent().getExtras();
+        //if (extras != null) {
+// Get data via the key
+          //  String value1 = extras.getString("donnee");
+            //if (value1 != null) {
+// Do something with the data
+              //  Log.d("centrale", value1);
+            //}
+        //}
 
 
 

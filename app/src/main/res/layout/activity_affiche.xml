@@ -12,7 +12,6 @@
         android:text="Bravo ! On arrive jusque là !"
         android:id="@+id/textView"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_above="@+id/progressBar" />
+        android:layout_alignParentStart="true"/>
 
 </RelativeLayout>
