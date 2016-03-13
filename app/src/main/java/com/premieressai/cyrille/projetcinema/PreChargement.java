@@ -72,7 +72,7 @@ public class PreChargement extends Activity {
                 (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.d("test", response.toString());
+                        //Log.d("test", response.toString());
                         liste_affiche = response;
                         liste2 = film_affiche(liste_affiche);
                         Intent intent = new Intent(PreChargement.this, Affiche.class);
@@ -116,12 +116,13 @@ public class PreChargement extends Activity {
     public List<Film> film_affiche(JSONArray flux){
 
         List<Film> liste_films = new ArrayList<>();
-        Film film_test = new Film();
 
         try {
 
 
             for (int i=0; i<flux.length(); i++){
+
+                Film film_test = new Film();
 
                 JSONObject jsonObject = flux.getJSONObject(i);
 

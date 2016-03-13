@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /*Ecran de chargement qui teste si connexion fonctionne.
 Sinon, le dit. Si oui, charge les données + go index.
@@ -31,17 +34,15 @@ public class Affiche extends Activity {
         if (PreChargement.liste_affiche != null) {
             textView = (TextView) findViewById(R.id.textView);
             //textView.setText("GG !");
-            Log.d("centrale", PreChargement.liste_affiche.toString());
+            Log.d("centrale", PreChargement.liste2.toString());
         }
 
         mListView = (ListView) findViewById(R.id.listView);
 
-        ArrayAdapter<Film> adapter = new ArrayAdapter<Film>(Affiche.this, android.R.layout.simple_list_item_1, PreChargement.liste2);
+        FilmAdapter adapter = new FilmAdapter(Affiche.this, PreChargement.liste2);
         mListView.setAdapter(adapter);
 
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
