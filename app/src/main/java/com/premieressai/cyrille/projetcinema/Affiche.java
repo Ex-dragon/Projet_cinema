@@ -31,15 +31,15 @@ public class Affiche extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affiche);
 
-        if (PreChargement.liste_affiche != null) {
+        if (PreChargement.liste_films_affiche != null) {
             textView = (TextView) findViewById(R.id.textView);
             //textView.setText("GG !");
-            Log.d("centrale", PreChargement.liste2.toString());
+            Log.d("centrale", PreChargement.liste_films_affiche.toString());
         }
 
         mListView = (ListView) findViewById(R.id.listView);
 
-        FilmAdapter adapter = new FilmAdapter(Affiche.this, PreChargement.liste2);
+        FilmAdapter adapter = new FilmAdapter(Affiche.this, PreChargement.liste_films_affiche);
         mListView.setAdapter(adapter);
 
     }

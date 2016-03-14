@@ -34,8 +34,9 @@ import java.util.List;
 public class PreChargement extends Activity {
 
 
-    public static JSONArray liste_affiche;
-    public static List<Film> liste2;
+    public static JSONArray liste_temporaire;
+    public static List<Film> liste_films_affiche;
+    public static List<Film> liste_seances_films;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +74,8 @@ public class PreChargement extends Activity {
                     @Override
                     public void onResponse(JSONArray response) {
                         //Log.d("test", response.toString());
-                        liste_affiche = response;
-                        liste2 = film_affiche(liste_affiche);
+                        liste_temporaire = response;
+                        liste_films_affiche = film_affiche(liste_temporaire);
                         Intent intent = new Intent(PreChargement.this, Affiche.class);
                         startActivity(intent);
                     }
@@ -87,6 +88,27 @@ public class PreChargement extends Activity {
                 });
         // Access the RequestQueue through your singleton class.
         Singleton.getInstance(this).addToRequestQueue(jsArrRequest);
+
+        String url_seance = "http://centrale.corellis.eu/seances.json";
+
+        JsonArrayRequest jsArrRequestSeance = new JsonArrayRequest
+                (Request.Method.GET, url_seance, null, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        //Log.d("test", response.toString());
+                        liste_temporaire = response;
+                        liste_seances_films = film_affiche(liste_temporaire);
+                        Intent intent = new Intent(PreChargement.this, Affiche.class);
+                        startActivity(intent);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("error volley", error.getMessage());
+                    }
+                });
+        // Access the RequestQueue through your singleton class.
+        Singleton.getInstance(this).addToRequestQueue(jsArrRequestSeance);
 
     }
 
@@ -129,7 +151,7 @@ public class PreChargement extends Activity {
                 film_test.setId(jsonObject.getInt("id"));
                 film_test.setTitre(jsonObject.getString("titre"));
                 film_test.setDuree(jsonObject.getInt("duree"));
-                //film_test.setAffiche(jsonObject.getString("affiche"));
+                film_test.setAffiche(jsonObject.getString("affiche"));
 
                 liste_films.add(film_test);
 
@@ -140,5 +162,34 @@ public class PreChargement extends Activity {
         }
         return liste_films;
     }
+
+    public List<Film> film_seance(JSONArray flux){
+
+        List<Film> liste_seance = new ArrayList<>();
+
+        try {
+
+
+            for (int i=0; i<flux.length(); i++){
+
+                Film film_test = new Film();
+
+                JSONObject jsonObject = flux.getJSONObject(i);
+
+                film_test.setId(jsonObject.getInt("id"));
+                film_test.setTitre(jsonObject.getString("titre"));
+                film_test.setDuree(jsonObject.getInt("duree"));
+                film_test.setAffiche(jsonObject.getString("affiche"));
+
+                liste_seance.add(film_test);
+
+            }
+
+        } catch (JSONException e) {
+            Log.d("error jsonarray", e.getMessage());
+        }
+        return liste_seance;
+    }
+
 
 }

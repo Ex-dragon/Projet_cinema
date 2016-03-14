@@ -28,9 +28,6 @@ import java.util.List;
  */
 public class FilmAdapter extends ArrayAdapter<Film> {
 
-    // The URL for the image that is being loaded.
-    private static final String IMAGE_URL = "http://developer.android.com/images/training/system-ui.png";
-
     public FilmAdapter(Context context, List<Film> films) {
         super(context, 0, films);
     }
@@ -38,12 +35,12 @@ public class FilmAdapter extends ArrayAdapter<Film> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.layout_film_affiche,parent, false);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.layout_film_affiche, parent, false);
         }
 
         FilmViewHolder viewHolder = (FilmViewHolder) convertView.getTag();
-        if(viewHolder == null){
+        if (viewHolder == null) {
             viewHolder = new FilmViewHolder();
             //viewHolder.affiche = (ImageView) convertView.findViewById(R.id.affiche);
             viewHolder.titre = (TextView) convertView.findViewById(R.id.titre);
@@ -55,17 +52,14 @@ public class FilmAdapter extends ArrayAdapter<Film> {
         Film film = getItem(position);
 
         //il ne reste plus qu'à remplir notre vue
-        //viewHolder.affiche.setImageDrawable(film.getAffiche());
-        //new DownloadImageTask((ImageView) convertView.findViewById(R.id.affiche)).execute(film.getAffiche());
         viewHolder.titre.setText(film.getTitre());
-        viewHolder.duree.setText(String.valueOf(film.getDuree()));
+        viewHolder.duree.setText(film.getDuree());
 
         final ImageView mImageView;
-        String url = "http://i.imgur.com/7spzG.png";
         mImageView = (ImageView) convertView.findViewById(R.id.affiche);
 
 // Retrieves an image specified by the URL, displays it in the UI.
-        ImageRequest request = new ImageRequest(url,
+        ImageRequest request = new ImageRequest(film.getAffiche(),
                 new Response.Listener<Bitmap>() {
                     @Override
                     public void onResponse(Bitmap bitmap) {
@@ -80,12 +74,13 @@ public class FilmAdapter extends ArrayAdapter<Film> {
 // Access the RequestQueue through your singleton class.
         Singleton.getInstance(this.getContext()).addToRequestQueue(request);
 
+
         return convertView;
     }
 
-    private class FilmViewHolder{
+    private class FilmViewHolder {
         public TextView titre;
-        public ImageView affiche;
         public TextView duree;
     }
+
 }
