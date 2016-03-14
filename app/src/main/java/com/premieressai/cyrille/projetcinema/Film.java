@@ -14,8 +14,8 @@ public class Film {
 // filmseance.json
     private int id = 0;
     private String titre = "";
-    private String duree;
-    private String affiche;
+    private String duree = "";
+    private String affiche = "";
 
     private String distributeur;
     private String acteurs;
@@ -27,8 +27,8 @@ public class Film {
     private String info;
     private String is_visible;
     private String is_vente;
-    private String genre_id;  // genre
-    private String categorie_id; //categorie
+    private String genre = "";  // genre
+    private String categorie; //categorie
     private String Release_number;
     private String pays;
     private String share_url;
@@ -59,14 +59,14 @@ public class Film {
     String web_label;
 
 //seances : +id et titre
-    private String actual_date;
-    private String show_time;
-    private boolean is_troisd;
-    private boolean is_malentendant;
-    private boolean is_handicape;
+    private String actual_date = "";
+    private String show_time = "";
+    private boolean is_troisd = false;
+    private boolean is_malentendant = false;
+    private boolean is_handicape = false;
     private String nationality; //langue
     private String cinemaid;
-    private String filmid;
+    private int filmid;
     private String categorieid;
     private String performanceid;
     private String cinema_salle;
@@ -106,6 +106,14 @@ public class Film {
 
     public String getAffiche(){
         return affiche;
+    }
+
+    public void setGenre(String genrre){
+        genre = genrre;
+    }
+
+    public String getGenre(){
+        return genre;
     }
 
     public void setActual_date(String date){
@@ -157,10 +165,17 @@ public class Film {
         return is_handicape;
     }
 
+    public void setFilmid(int id){
+        filmid = id;
+    }
+
+    public int getFilmid(){
+        return filmid;
+    }
+
 
     //private String nationality; //langue
     //private String cinemaid;
-    //private String filmid; //id dans séances
     //private String categorieid;
     //private String performanceid;
     //private String cinema_salle;

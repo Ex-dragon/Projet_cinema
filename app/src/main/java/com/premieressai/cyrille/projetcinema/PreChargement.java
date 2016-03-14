@@ -97,9 +97,9 @@ public class PreChargement extends Activity {
                     public void onResponse(JSONArray response) {
                         //Log.d("test", response.toString());
                         liste_temporaire = response;
-                        liste_seances_films = film_affiche(liste_temporaire);
-                        Intent intent = new Intent(PreChargement.this, Affiche.class);
-                        startActivity(intent);
+                        liste_seances_films = film_seance(liste_temporaire, liste_films_affiche);
+                        //Intent intent = new Intent(PreChargement.this, Affiche.class);
+                        //startActivity(intent);
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -152,6 +152,7 @@ public class PreChargement extends Activity {
                 film_test.setTitre(jsonObject.getString("titre"));
                 film_test.setDuree(jsonObject.getInt("duree"));
                 film_test.setAffiche(jsonObject.getString("affiche"));
+                film_test.setGenre(jsonObject.getString("genre"));
 
                 liste_films.add(film_test);
 
@@ -163,32 +164,28 @@ public class PreChargement extends Activity {
         return liste_films;
     }
 
-    public List<Film> film_seance(JSONArray flux){
-
-        List<Film> liste_seance = new ArrayList<>();
+    public List<Film> film_seance(JSONArray flux, List<Film> liste){
 
         try {
 
-
             for (int i=0; i<flux.length(); i++){
-
-                Film film_test = new Film();
 
                 JSONObject jsonObject = flux.getJSONObject(i);
 
-                film_test.setId(jsonObject.getInt("id"));
-                film_test.setTitre(jsonObject.getString("titre"));
-                film_test.setDuree(jsonObject.getInt("duree"));
-                film_test.setAffiche(jsonObject.getString("affiche"));
+                //boucle if sur les id
+                for (int j=0; j<liste.size(); j++) {
 
-                liste_seance.add(film_test);
+                    if (liste.get(j).getId() == jsonObject.getInt("filmid")){
+                        liste.get(j).setIs_troisd(jsonObject.getBoolean("is_troisd"));
+                    }
 
+                }
             }
 
         } catch (JSONException e) {
             Log.d("error jsonarray", e.getMessage());
         }
-        return liste_seance;
+        return liste;
     }
 
 

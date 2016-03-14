@@ -2,11 +2,6 @@ package com.premieressai.cyrille.projetcinema;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +11,8 @@ import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.ImageRequest;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 /**
@@ -42,13 +34,13 @@ public class FilmAdapter extends ArrayAdapter<Film> {
         FilmViewHolder viewHolder = (FilmViewHolder) convertView.getTag();
         if (viewHolder == null) {
             viewHolder = new FilmViewHolder();
-            //viewHolder.affiche = (ImageView) convertView.findViewById(R.id.affiche);
+
             viewHolder.titre = (TextView) convertView.findViewById(R.id.titre);
             viewHolder.duree = (TextView) convertView.findViewById(R.id.duree);
             convertView.setTag(viewHolder);
         }
 
-        //getItem(position) va récupérer l'item [position] de la List<Tweet> tweets
+        //getItem(position) va récupérer l'item [position] de la List<Film> films
         Film film = getItem(position);
 
         //il ne reste plus qu'à remplir notre vue
@@ -58,7 +50,7 @@ public class FilmAdapter extends ArrayAdapter<Film> {
         final ImageView mImageView;
         mImageView = (ImageView) convertView.findViewById(R.id.affiche);
 
-// Retrieves an image specified by the URL, displays it in the UI.
+//  Retrieves an image specified by the URL, displays it in the UI.
         ImageRequest request = new ImageRequest(film.getAffiche(),
                 new Response.Listener<Bitmap>() {
                     @Override
@@ -71,9 +63,8 @@ public class FilmAdapter extends ArrayAdapter<Film> {
                         mImageView.setImageResource(0);
                     }
                 });
-// Access the RequestQueue through your singleton class.
-        Singleton.getInstance(this.getContext()).addToRequestQueue(request);
 
+        Singleton.getInstance(this.getContext()).addToRequestQueue(request);
 
         return convertView;
     }

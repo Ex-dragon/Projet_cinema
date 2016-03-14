@@ -1,10 +1,13 @@
 package com.premieressai.cyrille.projetcinema;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,7 +24,6 @@ Sinon, le dit. Si oui, charge les données + go index.
 
 public class Affiche extends Activity {
 
-    private TextView textView;
     ListView mListView;
 
 
@@ -32,8 +34,6 @@ public class Affiche extends Activity {
         setContentView(R.layout.activity_affiche);
 
         if (PreChargement.liste_films_affiche != null) {
-            textView = (TextView) findViewById(R.id.textView);
-            //textView.setText("GG !");
             Log.d("centrale", PreChargement.liste_films_affiche.toString());
         }
 
@@ -41,6 +41,23 @@ public class Affiche extends Activity {
 
         FilmAdapter adapter = new FilmAdapter(Affiche.this, PreChargement.liste_films_affiche);
         mListView.setAdapter(adapter);
+
+        mListView.setClickable(true);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+
+                try {
+                    Film o = (Film) mListView.getItemAtPosition(position);
+                    Intent monIntent = new Intent(Affiche.this, FilmDetail.class);
+                    monIntent.putExtra("id", o.getId());
+                    startActivity(monIntent);
+                } catch(Exception e){
+                    Log.d("erreur", e.getMessage());
+                }
+            }
+        });
 
     }
 
