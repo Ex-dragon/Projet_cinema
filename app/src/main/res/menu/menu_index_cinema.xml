@@ -1,5 +1,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".IndexCinema">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+    xmlns:tools="http://schemas.android.com/tools" tools:context="">
+    <item android:id="@+id/action_settings" android:title="A l'affiche"
+    android:orderInCategory="100" android:showAsAction="never" />
+
+    <item android:id="@+id/prochainement" android:title="Prochainement"
+        android:orderInCategory="100" android:showAsAction="never" />
+
+    <item android:id="@+id/events" android:title="Evènements"
+        android:orderInCategory="100" android:showAsAction="never" />
+
+    <item android:id="@+id/préférences" android:title="Préférences"
         android:orderInCategory="100" android:showAsAction="never" />
 </menu>

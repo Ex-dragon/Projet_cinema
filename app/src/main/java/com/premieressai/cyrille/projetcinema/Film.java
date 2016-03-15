@@ -4,6 +4,7 @@ package com.premieressai.cyrille.projetcinema;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -16,23 +17,23 @@ public class Film {
     private String titre = "";
     private String duree = "";
     private String affiche = "";
+    private String distributeur = "";
+    private String acteurs = "";
+    private String web = "";
+    private String realisateur = "";
+    private String synopsis = "";
 
-    private String distributeur;
-    private String acteurs;
-    private String web;
-    private String realisateur;
-    private String synopsis;
     private String annee;
     private String date_sortie;
     private String info;
     private String is_visible;
     private String is_vente;
     private String genre = "";  // genre
-    private String categorie; //categorie
+    private String categorie = ""; //categorie
     private String Release_number;
     private String pays;
     private String share_url;
-    private String media;
+    private ArrayList<String> media;
     private String video;
     private String is_avp;
     private String is_alaune; //A la une, sert à rien, toujours false
@@ -64,12 +65,12 @@ public class Film {
     private boolean is_troisd = false;
     private boolean is_malentendant = false;
     private boolean is_handicape = false;
-    private String nationality; //langue
-    private String cinemaid;
-    private int filmid;
+    private String nationality = ""; //langue
+    private int cinemaid = 0;
+    private int filmid = 0;
     private String categorieid;
     private String performanceid;
-    private String cinema_salle;
+    private String cinema_salle = "";
 
     public void setId(int ID){
         id = ID;
@@ -108,12 +109,61 @@ public class Film {
         return affiche;
     }
 
+    public void setDistributeur(String distri){
+        distributeur = distri;
+    }
+
+    public String getDistributeur(){
+        return distributeur;
+    }
+
+    public void setActeurs(String acteur){
+        acteurs = acteur;
+    }
+
+    public String getActeurs(){
+        return acteurs;
+    }
+
+    public void setWeb(String site){
+        web = site;
+    }
+
+    public String getWeb(){
+        return web;
+    }
+
+    public void setRealisateur(String real){
+        realisateur = real;
+    }
+
+    public String getRealisateur(){
+        return realisateur;
+
+    }
+
+    public void setSynopsis(String descr){
+        synopsis = descr;
+    }
+
+    public String getSynopsis(){
+        return synopsis;
+    }
+
     public void setGenre(String genrre){
         genre = genrre;
     }
 
     public String getGenre(){
         return genre;
+    }
+
+    public void setCategorie(String cat){
+        categorie = cat;
+    }
+
+    public String getCategorie(){
+        return categorie;
     }
 
     public void setActual_date(String date){
@@ -145,24 +195,27 @@ public class Film {
         is_troisd = troisd;
     }
 
-    public boolean getIs_troisd(){
-        return is_troisd;
+    public String getIs_troisd(){
+        if (is_troisd) {return "oui";}
+        else {return "non";}
     }
 
     public void setIs_malentendant(boolean mal){
         is_malentendant = mal;
     }
 
-    public boolean getIs_malentendant(){
-        return is_malentendant;
+    public String getIs_malentendant(){
+        if (is_malentendant) {return "oui";}
+        else {return "non";}
     }
 
     public void setIs_handicape(boolean hand){
         is_handicape = hand;
     }
 
-    public boolean getIs_handicape(){
-        return is_handicape;
+    public String getIs_handicape(){
+        if (is_handicape) {return "oui";}
+        else {return "non";}
     }
 
     public void setFilmid(int id){
@@ -173,9 +226,38 @@ public class Film {
         return filmid;
     }
 
+    public void setNationality(String langue){
+        nationality = langue;
+    }
 
-    //private String nationality; //langue
-    //private String cinemaid;
+    public String getNationality(){
+        return nationality;
+    }
+
+    public void setCinemaid(int i){
+        cinemaid = i;
+    }
+
+    public int getCinemaid(){
+        return cinemaid;
+    }
+
+    public ArrayList<Photo> getMedia() {
+        ArrayList<Photo> liste = null;
+
+        for (int i=0 ; i < media.size(); i++){
+            assert liste != null;
+            liste.add(new Photo(media.get(i)));
+        }
+
+        return liste;
+    }
+
+    public void setMedia(ArrayList<String> media) {
+        this.media = media;
+    }
+
+
     //private String categorieid;
     //private String performanceid;
     //private String cinema_salle;

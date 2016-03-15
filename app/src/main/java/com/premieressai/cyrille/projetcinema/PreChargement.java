@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.android.volley.Cache;
@@ -37,6 +38,7 @@ public class PreChargement extends Activity {
     public static JSONArray liste_temporaire;
     public static List<Film> liste_films_affiche;
     public static List<Film> liste_seances_films;
+    public static List<Film> liste_prochainement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,48 @@ public class PreChargement extends Activity {
         // Start the queue
         mRequestQueue.start();
 
+        String url_seance = "http://centrale.corellis.eu/seances.json";
+
+        JsonArrayRequest jsArrRequestSeance = new JsonArrayRequest
+                (Request.Method.GET, url_seance, null, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        //Log.d("test", response.toString());
+                        liste_temporaire = response;
+                        liste_seances_films = film_seance(liste_temporaire, liste_films_affiche);
+                        //Intent intent = new Intent(PreChargement.this, Affiche.class);
+                        //startActivity(intent);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("error volley", error.getMessage());
+                    }
+                });
+        // Access the RequestQueue through your singleton class.
+        Singleton.getInstance(this).addToRequestQueue(jsArrRequestSeance);
+
+        String url_prochainement = "http://centrale.corellis.eu/prochainement.json";
+
+        JsonArrayRequest jsArrRequestProc = new JsonArrayRequest
+                (Request.Method.GET, url_prochainement, null, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        //Log.d("test", response.toString());
+                        liste_temporaire = response;
+                        liste_prochainement = film_prochainement(liste_temporaire);
+                        //Intent intent = new Intent(PreChargement.this, Affiche.class);
+                        //startActivity(intent);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("error volley", error.getMessage());
+                    }
+                });
+        // Access the RequestQueue through your singleton class.
+        Singleton.getInstance(this).addToRequestQueue(jsArrRequestSeance);
+
         String url = "http://centrale.corellis.eu/filmseances.json";
 
         JsonArrayRequest jsArrRequest = new JsonArrayRequest
@@ -89,26 +133,7 @@ public class PreChargement extends Activity {
         // Access the RequestQueue through your singleton class.
         Singleton.getInstance(this).addToRequestQueue(jsArrRequest);
 
-        String url_seance = "http://centrale.corellis.eu/seances.json";
 
-        JsonArrayRequest jsArrRequestSeance = new JsonArrayRequest
-                (Request.Method.GET, url_seance, null, new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        //Log.d("test", response.toString());
-                        liste_temporaire = response;
-                        liste_seances_films = film_seance(liste_temporaire, liste_films_affiche);
-                        //Intent intent = new Intent(PreChargement.this, Affiche.class);
-                        //startActivity(intent);
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("error volley", error.getMessage());
-                    }
-                });
-        // Access the RequestQueue through your singleton class.
-        Singleton.getInstance(this).addToRequestQueue(jsArrRequestSeance);
 
     }
 
@@ -153,6 +178,20 @@ public class PreChargement extends Activity {
                 film_test.setDuree(jsonObject.getInt("duree"));
                 film_test.setAffiche(jsonObject.getString("affiche"));
                 film_test.setGenre(jsonObject.getString("genre"));
+                film_test.setDistributeur(jsonObject.getString("distributeur"));
+                film_test.setActeurs(jsonObject.getString("participants"));
+                film_test.setWeb(jsonObject.getString("web"));
+                film_test.setRealisateur(jsonObject.getString("realisateur"));
+                film_test.setSynopsis(jsonObject.getString("synopsis"));
+                film_test.setCategorie(jsonObject.getString("categorie"));
+
+                //ArrayList<String> media = null;
+     //           for (int k =0; k<jsonObject.getJSONObject("media").length(); k++){
+       //             media.add(jsonObject.getJSONArray("media").get(k));
+         //       }
+                //JSONArray array = jsonObject.getJSONArray("media");
+                //film_test.setMedia(media);
+                //Log.d("media", String.valueOf(array));
 
                 liste_films.add(film_test);
 
@@ -177,6 +216,10 @@ public class PreChargement extends Activity {
 
                     if (liste.get(j).getId() == jsonObject.getInt("filmid")){
                         liste.get(j).setIs_troisd(jsonObject.getBoolean("is_troisd"));
+                        liste.get(j).setIs_malentendant(jsonObject.getBoolean("is_malentendant"));
+                        liste.get(j).setIs_handicape(jsonObject.getBoolean("is_handicape"));
+                        liste.get(j).setCinemaid(jsonObject.getInt("cinemaid"));
+                        liste.get(j).setNationality(jsonObject.getString("nationality"));
                     }
 
                 }
@@ -186,6 +229,54 @@ public class PreChargement extends Activity {
             Log.d("error jsonarray", e.getMessage());
         }
         return liste;
+    }
+
+    public List<Film> film_prochainement(JSONArray flux){
+
+        List<Film> liste_films = new ArrayList<>();
+        JSONArray proc = null;
+
+        try {
+            proc = flux.getJSONArray(3);
+        } catch(JSONException e) {
+            Log.d("json", e.getMessage());
+        }
+
+        try {
+            for (int i=0; i<proc.length(); i++){
+
+                Film film_test = new Film();
+
+                JSONObject jsonObject = proc.getJSONObject(i);
+
+                film_test.setId(jsonObject.getInt("id"));
+                film_test.setTitre(jsonObject.getString("titre"));
+                film_test.setDuree(jsonObject.getInt("duree"));
+                film_test.setAffiche(jsonObject.getString("affiche"));
+                film_test.setGenre(jsonObject.getString("genre"));
+                film_test.setDistributeur(jsonObject.getString("distributeur"));
+                film_test.setActeurs(jsonObject.getString("participants"));
+                film_test.setWeb(jsonObject.getString("web"));
+                film_test.setRealisateur(jsonObject.getString("realisateur"));
+                film_test.setSynopsis(jsonObject.getString("synopsis"));
+                film_test.setCategorie(jsonObject.getString("categorie"));
+
+                //ArrayList<String> media = null;
+                //           for (int k =0; k<jsonObject.getJSONObject("media").length(); k++){
+                //             media.add(jsonObject.getJSONArray("media").get(k));
+                //       }
+                //JSONArray array = jsonObject.getJSONArray("media");
+                //film_test.setMedia(media);
+                //Log.d("media", String.valueOf(array));
+
+                liste_films.add(film_test);
+
+            }
+
+        } catch (JSONException e) {
+            Log.d("error jsonarray", e.getMessage());
+        }
+        return liste_films;
     }
 
 

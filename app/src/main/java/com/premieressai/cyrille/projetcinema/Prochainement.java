@@ -8,30 +8,26 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import org.json.JSONArray;
-
-import java.util.ArrayList;
-import java.util.List;
-
-
-/*Ecran de chargement qui teste si connexion fonctionne.
-Sinon, le dit. Si oui, charge les données + go index.
+/**
+ * Created by Cyrille on 14/03/2016.
  */
-
-public class Affiche extends BaseActivity {
+public class Prochainement extends BaseActivity {
 
     ListView mListView;
+    static final String TAG="centrale";
+
+    public void Prochainement(){
+
+    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_affiche);
+        setContentView(R.layout.prochainement);
 
         if (PreChargement.liste_films_affiche != null) {
             Log.d("centrale", PreChargement.liste_films_affiche.toString());
@@ -39,7 +35,7 @@ public class Affiche extends BaseActivity {
 
         mListView = (ListView) findViewById(R.id.listView);
 
-        FilmAdapter adapter = new FilmAdapter(Affiche.this, PreChargement.liste_films_affiche);
+        FilmAdapter adapter = new FilmAdapter(Prochainement.this, PreChargement.liste_prochainement);
         mListView.setAdapter(adapter);
 
         mListView.setClickable(true);
@@ -50,7 +46,7 @@ public class Affiche extends BaseActivity {
 
                 try {
                     Film o = (Film) mListView.getItemAtPosition(position);
-                    Intent monIntent = new Intent(Affiche.this, FilmDetail.class);
+                    Intent monIntent = new Intent(Prochainement.this, FilmDetail.class);
                     monIntent.putExtra("id", o.getId());
                     startActivity(monIntent);
                 } catch(Exception e){
@@ -83,4 +79,34 @@ public class Affiche extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        Log.d(TAG,"onDestroy");
+        super.onDestroy();
+    }
+    @Override
+    protected void onPause() {
+        Log.d(TAG,"onPause");
+        super.onPause();
+    }
+    @Override
+    protected void onRestart() {
+        Log.d(TAG,"onRestart");
+        super.onRestart();
+    }
+    @Override
+    protected void onResume() {
+        Log.d(TAG,"onResume");
+        super.onResume();
+    }
+    @Override
+    protected void onStart() {
+        Log.d(TAG,"onStart");
+        super.onStart();
+    }
+    @Override
+    protected void onStop() {
+        Log.d(TAG,"onStop");
+        super.onStop();
+    }
 }
