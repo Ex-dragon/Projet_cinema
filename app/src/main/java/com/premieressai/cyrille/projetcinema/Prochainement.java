@@ -21,7 +21,7 @@ public class Prochainement extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.prochainement);
+        setContentView(R.layout.activity_affiche);
 
         if (PreChargement.liste_prochainement != null) {
             Log.d("prochainement", PreChargement.liste_prochainement.toString());
