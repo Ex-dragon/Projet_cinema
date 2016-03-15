@@ -22,11 +22,8 @@ public class Film {
 
     private String genre = "";
     private String categorie = "";
-    private ArrayList<String> media;
-
 
     private ArrayList<Seance> seance = new ArrayList<>();
-    private int cinemaid = 0;
 
     public void setId(int ID){
         id = ID;
@@ -112,21 +109,6 @@ public class Film {
 
     public String getCategorie(){
         return categorie;
-    }
-
-    public ArrayList<Photo> getMedia() {
-        ArrayList<Photo> liste = null;
-
-        for (int i=0 ; i < media.size(); i++){
-            assert liste != null;
-            liste.add(new Photo(media.get(i)));
-        }
-
-        return liste;
-    }
-
-    public void setMedia(ArrayList<String> media) {
-        this.media = media;
     }
 
     public ArrayList<Seance> getSeance() {

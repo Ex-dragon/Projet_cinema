@@ -163,7 +163,6 @@ public class PreChargement extends Activity {
                 film_test.setGenre(jsonObject.getString("genre"));
                 film_test.setDistributeur(jsonObject.getString("distributeur"));
                 film_test.setActeurs(jsonObject.getString("participants"));
-                film_test.setWeb(jsonObject.getString("web"));
                 film_test.setRealisateur(jsonObject.getString("realisateur"));
                 film_test.setSynopsis(jsonObject.getString("synopsis"));
                 film_test.setCategorie(jsonObject.getString("categorie"));
