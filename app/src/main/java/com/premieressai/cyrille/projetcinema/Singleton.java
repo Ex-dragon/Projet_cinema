@@ -12,6 +12,8 @@ import com.android.volley.toolbox.Volley;
 /**
  * Created by Cyrille on 12/03/2016.
  */
+
+//Classe Singleton utilisée pour les requêtes.
 public class Singleton {
 
     private static Singleton mInstance;
@@ -49,8 +51,6 @@ public class Singleton {
 
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
-            // getApplicationContext() is key, it keeps you from leaking the
-            // Activity or BroadcastReceiver if someone passes one in.
             mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
         }
         return mRequestQueue;

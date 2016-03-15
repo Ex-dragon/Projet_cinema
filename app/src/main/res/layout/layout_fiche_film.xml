@@ -52,17 +52,6 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
-            android:id="@+id/is_troisd"
-            android:layout_toRightOf="@+id/affiche"
-            android:layout_below="@+id/acteurs"
-            android:layout_alignParentLeft="true"
-            android:layout_marginTop="10dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
             android:id="@+id/distributeur"
             android:layout_below="@+id/categorie"
             android:layout_alignParentLeft="true"
@@ -92,27 +81,29 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
             android:id="@+id/synopsis"
-            android:layout_below="@+id/malentendant"
+            android:layout_below="@+id/acteurs"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="10dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
-            android:id="@+id/handicape"
-            android:layout_below="@+id/is_troisd"
-            android:layout_alignParentStart="true" />
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
-            android:id="@+id/malentendant"
-            android:layout_below="@+id/handicape"
-            android:layout_alignParentStart="true" />
+            android:text="Séances :"
+            android:id="@+id/seance"
+            android:layout_below="@+id/synopsis"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dp" />
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listView2"
+            android:layout_below="@+id/seance"
+            android:layout_alignParentLeft="true" />
+
 
     </RelativeLayout>
 

@@ -18,6 +18,8 @@ import java.util.List;
 /**
  * Created by Cyrille on 13/03/2016.
  */
+
+//L'adapter chargé de l'affichage des films à l'affiche.
 public class FilmAdapter extends ArrayAdapter<Film> {
 
     public FilmAdapter(Context context, List<Film> films) {
@@ -34,7 +36,6 @@ public class FilmAdapter extends ArrayAdapter<Film> {
         FilmViewHolder viewHolder = (FilmViewHolder) convertView.getTag();
         if (viewHolder == null) {
             viewHolder = new FilmViewHolder();
-
             viewHolder.titre = (TextView) convertView.findViewById(R.id.titre);
             viewHolder.duree = (TextView) convertView.findViewById(R.id.duree);
             convertView.setTag(viewHolder);
@@ -50,7 +51,7 @@ public class FilmAdapter extends ArrayAdapter<Film> {
         final ImageView mImageView;
         mImageView = (ImageView) convertView.findViewById(R.id.affiche);
 
-//  Retrieves an image specified by the URL, displays it in the UI.
+//  Récupération de l'affiche à partir de son url
         ImageRequest request = new ImageRequest(film.getAffiche(),
                 new Response.Listener<Bitmap>() {
                     @Override
@@ -63,7 +64,6 @@ public class FilmAdapter extends ArrayAdapter<Film> {
                         mImageView.setImageResource(0);
                     }
                 });
-
         Singleton.getInstance(this.getContext()).addToRequestQueue(request);
 
         return convertView;
@@ -73,5 +73,4 @@ public class FilmAdapter extends ArrayAdapter<Film> {
         public TextView titre;
         public TextView duree;
     }
-
 }

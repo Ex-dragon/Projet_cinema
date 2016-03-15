@@ -1,31 +1,20 @@
 package com.premieressai.cyrille.projetcinema;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
-
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageRequest;
 
 import java.util.List;
 
 /**
  * Created by Cyrille on 13/03/2016.
  */
+
+//Activité  affichant la fiche détaillée d'un film
 public class FilmDetail extends BaseActivity {
 
-    //requestFeature(FEATURE_ACTION_BAR);
-
-    // séances, langue, photos, vidéos
+    ListView mListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,24 +24,20 @@ public class FilmDetail extends BaseActivity {
 
         Film film_test = new Film();
 
+        //Récupération de l'id et donc du film.
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-// Get data via the key
             int id = extras.getInt("id");
-            film_test = getFilm(PreChargement.liste_seances_films, id);
+            film_test = getFilm(PreChargement.liste_films_affiche, id);
             Log.d("centrale", String.valueOf(film_test));
-
         }
 
+        //Affichage + mise en page
         TextView Titre = (TextView)findViewById(R.id.titre);
 
         TextView Duree = (TextView)findViewById(R.id.duree);
         TextView Genre = (TextView)findViewById(R.id.genre);
         TextView Categorie = (TextView)findViewById(R.id.categorie);
-
-        TextView Is_troisd = (TextView)findViewById(R.id.is_troisd);
-        TextView Malentendant = (TextView)findViewById(R.id.malentendant);
-        TextView Handicape = (TextView)findViewById(R.id.handicape);
 
         TextView Acteurs = (TextView)findViewById(R.id.acteurs);
         TextView Realisateur = (TextView)findViewById(R.id.realisateur);
@@ -64,23 +49,21 @@ public class FilmDetail extends BaseActivity {
         Duree.setText(String.valueOf("Durée : " + film_test.getDuree()));
         Genre.setText("Genre : " + film_test.getGenre());
         Categorie.setText("Categorie : " + film_test.getCategorie());
-        Is_troisd.setText("3D : " + film_test.getIs_troisd());
-        Malentendant.setText("Malentendant : " + film_test.getIs_malentendant());
-        Handicape.setText("Handicape : " + film_test.getIs_handicape());
-
-        Log.d("acteurs", String.valueOf(film_test.getActeurs()));
-
-        if (film_test.getActeurs() != "") {
-            Acteurs.setText("Acteurs : " + film_test.getActeurs());
-        } else {Acteurs.setVisibility(View.GONE);}
-
+        Acteurs.setText("Acteurs : " + film_test.getActeurs());
         Realisateur.setText("Réalisateur : " + film_test.getRealisateur());
         Distributeur.setText("Producteur : " + film_test.getDistributeur());
         Synopsis.setText("Synopsis : " + film_test.getSynopsis());
 
+        //Adapter pour la liste des séances
+        mListView = (ListView) findViewById(R.id.listView2);
+
+        SeanceAdapter adapter = new SeanceAdapter(FilmDetail.this, film_test.getSeance());
+        mListView.setAdapter(adapter);
+        Helper.getListViewSize(mListView);
+
     }
 
-
+//Fonction pour retrouver un film dans une liste à partir de son id.
     public Film getFilm(List<Film> liste, int id){
         Film film = new Film();
 
@@ -88,11 +71,7 @@ public class FilmDetail extends BaseActivity {
             if (liste.get(i).getId() == id){
                 film = liste.get(i);
             }
-            if (liste.get(i).getFilmid() == id){
-                film = liste.get(i);
-            }
         }
         return film;
     }
-
 }

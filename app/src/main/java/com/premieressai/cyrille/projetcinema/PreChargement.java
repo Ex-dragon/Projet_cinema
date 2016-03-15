@@ -7,7 +7,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.android.volley.Cache;
@@ -32,6 +31,7 @@ import java.util.List;
 
 /**
  * Created by Cyrille on 31/01/2016.
+ * Classe principale où sont effectués les chargements des json et une partie du traitement des données.
  */
 public class PreChargement extends Activity {
 
@@ -47,11 +47,11 @@ public class PreChargement extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pre_chargement);
 
+        //Vérification de la disponibilité d'une connection internet
         if(isInternetAvailable(this))
         {
             Toast toast = Toast.makeText(this, "Connection à internet établie", Toast.LENGTH_SHORT);
             toast.show();
-
         }
         else
         {
@@ -59,29 +59,20 @@ public class PreChargement extends Activity {
             toast.show();
         }
 
-        // Instantiate the cache
-        Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024); // 1MB cap
-
-        // Set up the network to use HttpURLConnection as the HTTP client.
+        // Préparation du cache et du réseau. Démarrage de la queue des requêtes.
+        Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024);
         Network network = new BasicNetwork(new HurlStack());
-
-        // Instantiate the RequestQueue with the cache and network.
         RequestQueue mRequestQueue = new RequestQueue(cache, network);
-
-        // Start the queue
         mRequestQueue.start();
 
+        //requêtes de récupération du flux Séances
         String url_seance = "http://centrale.corellis.eu/seances.json";
-
         JsonArrayRequest jsArrRequestSeance = new JsonArrayRequest
                 (Request.Method.GET, url_seance, null, new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        //Log.d("test", response.toString());
                         liste_temporaire = response;
                         liste_seances_films = film_seance(liste_temporaire, liste_films_affiche);
-                        //Intent intent = new Intent(PreChargement.this, Affiche.class);
-                        //startActivity(intent);
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -89,20 +80,16 @@ public class PreChargement extends Activity {
                         Log.d("error seance", error.getMessage());
                     }
                 });
-        // Access the RequestQueue through your singleton class.
         Singleton.getInstance(this).addToRequestQueue(jsArrRequestSeance);
 
+        //Requête de récupération du flux Prochainement
         String url_prochainement = "http://centrale.corellis.eu/prochainement.json";
-
         JsonObjectRequest jsObjRequestProc = new JsonObjectRequest
                 (Request.Method.GET, url_prochainement, null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        //Log.d("test", response.toString());
                         liste_temp_proc = response;
                         liste_prochainement = film_prochainement(liste_temp_proc);
-                        //Intent intent = new Intent(PreChargement.this, Affiche.class);
-                        //startActivity(intent);
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -110,11 +97,10 @@ public class PreChargement extends Activity {
                         Log.d("error proc", error.getMessage());
                     }
                 });
-        // Access the RequestQueue through your singleton class.
         Singleton.getInstance(this).addToRequestQueue(jsObjRequestProc);
 
+        //Requête de récupération du flux Filmseances
         String url = "http://centrale.corellis.eu/filmseances.json";
-
         JsonArrayRequest jsArrRequest = new JsonArrayRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
                     @Override
@@ -132,14 +118,11 @@ public class PreChargement extends Activity {
                         Log.d("error affiche", error.getMessage());
                     }
                 });
-        // Access the RequestQueue through your singleton class.
         Singleton.getInstance(this).addToRequestQueue(jsArrRequest);
-
-
-
     }
 
 
+    //Fonction vérifiant la disponibilité d'une connection internet
     public static boolean isInternetAvailable(Context context)
     {
         boolean isInternetAvailable = false;
@@ -158,17 +141,15 @@ public class PreChargement extends Activity {
         {
             // Do Nothing
         }
-
         return isInternetAvailable;
     }
 
+    //Fonction récupérant la liste des films à l'affiche. Les films sont ensuite réunis dans une ArrayList
     public List<Film> film_affiche(JSONArray flux){
 
         List<Film> liste_films = new ArrayList<>();
 
         try {
-
-
             for (int i=0; i<flux.length(); i++){
 
                 Film film_test = new Film();
@@ -187,14 +168,6 @@ public class PreChargement extends Activity {
                 film_test.setSynopsis(jsonObject.getString("synopsis"));
                 film_test.setCategorie(jsonObject.getString("categorie"));
 
-                //ArrayList<String> media = null;
-     //           for (int k =0; k<jsonObject.getJSONObject("media").length(); k++){
-       //             media.add(jsonObject.getJSONArray("media").get(k));
-         //       }
-                //JSONArray array = jsonObject.getJSONArray("media");
-                //film_test.setMedia(media);
-                //Log.d("media", String.valueOf(array));
-
                 liste_films.add(film_test);
 
             }
@@ -205,37 +178,43 @@ public class PreChargement extends Activity {
         return liste_films;
     }
 
+    //Fonction récupérant les séances pour chaque film. Les séances sont stockées dans une ArrayList<Séance>
     public List<Film> film_seance(JSONArray flux, List<Film> liste){
 
         try {
-
             for (int i=0; i<flux.length(); i++){
 
                 JSONObject jsonObject = flux.getJSONObject(i);
 
-                //boucle if sur les id
                 for (int j=0; j<liste.size(); j++) {
 
                     if (liste.get(j).getId() == jsonObject.getInt("filmid")){
-                        liste.get(j).setIs_troisd(jsonObject.getBoolean("is_troisd"));
-                        liste.get(j).setIs_malentendant(jsonObject.getBoolean("is_malentendant"));
-                        liste.get(j).setIs_handicape(jsonObject.getBoolean("is_handicape"));
-                        liste.get(j).setCinemaid(jsonObject.getInt("cinemaid"));
-                        liste.get(j).setNationality(jsonObject.getString("nationality"));
-                    }
+                        Seance seance = new Seance();
 
+                        seance.setIs_troisd(jsonObject.getBoolean("is_troisd"));
+                        seance.setIs_malentendant(jsonObject.getBoolean("is_malentendant"));
+                        seance.setIs_handicape(jsonObject.getBoolean("is_handicape"));
+                        seance.setCinemaid(jsonObject.getInt("cinemaid"));
+                        seance.setLangue(jsonObject.getString("nationality"));
+                        seance.setDate(jsonObject.getString("actual_date"));
+                        seance.setHeure(jsonObject.getString("show_time"));
+                        seance.setCinema_salle(jsonObject.getString("cinema_salle"));
+                        seance.setFilmid(jsonObject.getInt("filmid"));
+
+                        liste.get(j).getSeance().add(seance);
+                    }
                 }
             }
-
         } catch (JSONException e) {
             Log.d("error jsonarray", e.getMessage());
         }
         return liste;
     }
 
+    //Fonction récupérant la liste des films de la semain suivante
     public List<Film> film_prochainement(JSONObject flux){
 
-        List<Film> liste_films = new ArrayList<>();
+        List<Film> liste_films;
         JSONArray proc = new JSONArray();
         try {
             proc = flux.getJSONArray("films");
@@ -243,11 +222,8 @@ public class PreChargement extends Activity {
             e.printStackTrace();
         }
 
+        //réutilisation de film affiche car le traitement des données est le même.
         liste_films = film_affiche(proc);
-
-
         return liste_films;
     }
-
-
 }

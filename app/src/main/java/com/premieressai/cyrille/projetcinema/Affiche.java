@@ -1,31 +1,16 @@
 package com.premieressai.cyrille.projetcinema;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import org.json.JSONArray;
-
-import java.util.ArrayList;
-import java.util.List;
-
-
-/*Ecran de chargement qui teste si connexion fonctionne.
-Sinon, le dit. Si oui, charge les données + go index.
- */
-
+//Activité chargée d'afficher les films à l'affiche
 public class Affiche extends BaseActivity {
 
     ListView mListView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +18,12 @@ public class Affiche extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affiche);
 
+        //Vérification que la liste des films n'est pas vide
         if (PreChargement.liste_films_affiche != null) {
             Log.d("centrale", PreChargement.liste_films_affiche.toString());
         }
 
+        //Adapter pour afficher la liste
         mListView = (ListView) findViewById(R.id.listView);
 
         FilmAdapter adapter = new FilmAdapter(Affiche.this, PreChargement.liste_films_affiche);
@@ -45,12 +32,14 @@ public class Affiche extends BaseActivity {
         mListView.setClickable(true);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+            //Cliquer sur un film affiche sa page détaillée
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 
                 try {
                     Film o = (Film) mListView.getItemAtPosition(position);
                     Intent monIntent = new Intent(Affiche.this, FilmDetail.class);
+            //On envoie l'id du film dans l'intent pour le récupérer de l'autre côté.
                     monIntent.putExtra("id", o.getId());
                     startActivity(monIntent);
                 } catch(Exception e){
@@ -59,28 +48,6 @@ public class Affiche extends BaseActivity {
             }
         });
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_index_cinema, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
 }
