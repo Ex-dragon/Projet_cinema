@@ -26,13 +26,13 @@ public class BaseActivity extends Activity {
             {
                 Intent intent = new Intent(this, Affiche.class);
                 this.startActivity(intent);
-                break;
+                return true;
             }
             case R.id.prochainement:
             {
                 try {Intent intent = new Intent(this, Prochainement.class);
                 this.startActivity(intent);
-                break;} catch (Exception e){
+                return true;} catch (Exception e){
                     Log.d("prochainement", e.getMessage());
                 }
             }

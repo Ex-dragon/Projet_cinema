@@ -20,6 +20,7 @@ import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +37,7 @@ public class PreChargement extends Activity {
 
 
     public static JSONArray liste_temporaire;
+    public static JSONObject liste_temp_proc;
     public static List<Film> liste_films_affiche;
     public static List<Film> liste_seances_films;
     public static List<Film> liste_prochainement;
@@ -84,7 +86,7 @@ public class PreChargement extends Activity {
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("error volley", error.getMessage());
+                        Log.d("error seance", error.getMessage());
                     }
                 });
         // Access the RequestQueue through your singleton class.
@@ -92,24 +94,24 @@ public class PreChargement extends Activity {
 
         String url_prochainement = "http://centrale.corellis.eu/prochainement.json";
 
-        JsonArrayRequest jsArrRequestProc = new JsonArrayRequest
-                (Request.Method.GET, url_prochainement, null, new Response.Listener<JSONArray>() {
+        JsonObjectRequest jsObjRequestProc = new JsonObjectRequest
+                (Request.Method.GET, url_prochainement, null, new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONArray response) {
+                    public void onResponse(JSONObject response) {
                         //Log.d("test", response.toString());
-                        liste_temporaire = response;
-                        liste_prochainement = film_prochainement(liste_temporaire);
+                        liste_temp_proc = response;
+                        liste_prochainement = film_prochainement(liste_temp_proc);
                         //Intent intent = new Intent(PreChargement.this, Affiche.class);
                         //startActivity(intent);
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("error volley", error.getMessage());
+                        Log.d("error proc", error.getMessage());
                     }
                 });
         // Access the RequestQueue through your singleton class.
-        Singleton.getInstance(this).addToRequestQueue(jsArrRequestSeance);
+        Singleton.getInstance(this).addToRequestQueue(jsObjRequestProc);
 
         String url = "http://centrale.corellis.eu/filmseances.json";
 
@@ -127,7 +129,7 @@ public class PreChargement extends Activity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("error volley", error.getMessage());
+                        Log.d("error affiche", error.getMessage());
                     }
                 });
         // Access the RequestQueue through your singleton class.
@@ -231,51 +233,19 @@ public class PreChargement extends Activity {
         return liste;
     }
 
-    public List<Film> film_prochainement(JSONArray flux){
+    public List<Film> film_prochainement(JSONObject flux){
 
         List<Film> liste_films = new ArrayList<>();
-        JSONArray proc = null;
-
+        JSONArray proc = new JSONArray();
         try {
-            proc = flux.getJSONArray(3);
-        } catch(JSONException e) {
-            Log.d("json", e.getMessage());
-        }
-
-        try {
-            for (int i=0; i<proc.length(); i++){
-
-                Film film_test = new Film();
-
-                JSONObject jsonObject = proc.getJSONObject(i);
-
-                film_test.setId(jsonObject.getInt("id"));
-                film_test.setTitre(jsonObject.getString("titre"));
-                film_test.setDuree(jsonObject.getInt("duree"));
-                film_test.setAffiche(jsonObject.getString("affiche"));
-                film_test.setGenre(jsonObject.getString("genre"));
-                film_test.setDistributeur(jsonObject.getString("distributeur"));
-                film_test.setActeurs(jsonObject.getString("participants"));
-                film_test.setWeb(jsonObject.getString("web"));
-                film_test.setRealisateur(jsonObject.getString("realisateur"));
-                film_test.setSynopsis(jsonObject.getString("synopsis"));
-                film_test.setCategorie(jsonObject.getString("categorie"));
-
-                //ArrayList<String> media = null;
-                //           for (int k =0; k<jsonObject.getJSONObject("media").length(); k++){
-                //             media.add(jsonObject.getJSONArray("media").get(k));
-                //       }
-                //JSONArray array = jsonObject.getJSONArray("media");
-                //film_test.setMedia(media);
-                //Log.d("media", String.valueOf(array));
-
-                liste_films.add(film_test);
-
-            }
-
+            proc = flux.getJSONArray("films");
         } catch (JSONException e) {
-            Log.d("error jsonarray", e.getMessage());
+            e.printStackTrace();
         }
+
+        liste_films = film_affiche(proc);
+
+
         return liste_films;
     }
 

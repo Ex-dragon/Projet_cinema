@@ -29,14 +29,15 @@ public class Prochainement extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.prochainement);
 
-        if (PreChargement.liste_films_affiche != null) {
-            Log.d("centrale", PreChargement.liste_films_affiche.toString());
+        if (PreChargement.liste_prochainement != null) {
+            Log.d("prochainement", PreChargement.liste_prochainement.toString());
         }
 
         mListView = (ListView) findViewById(R.id.listView);
 
         FilmAdapter adapter = new FilmAdapter(Prochainement.this, PreChargement.liste_prochainement);
         mListView.setAdapter(adapter);
+
 
         mListView.setClickable(true);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
